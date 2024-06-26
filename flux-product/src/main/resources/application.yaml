@@ -1,0 +1,24 @@
+spring:
+  r2dbc:
+    username: xx
+    password: xx
+    url: r2dbc:mysql://xx:3306
+    name: Amazon
+  application:
+    name: flux-product
+
+  data:
+    redis:
+      host: xx
+      port: 6379
+server:
+  port: 8082
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost

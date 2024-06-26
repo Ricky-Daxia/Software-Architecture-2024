@@ -1,0 +1,96 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      routes:
+        - id: flux-product
+          uri: lb://flux-product
+          predicates:
+            - Path=/products/**
+          metadata:
+            cors:
+              allowedOrigins: '*'
+              allowedMethods:
+                - GET
+                - POST
+                - OPTIONS
+              allowedHeaders: '*'
+              maxAge: 30
+        - id: product-setting
+          uri: lb://flux-product
+          predicates:
+            - Path=/settings
+          metadata:
+            cors:
+              allowedOrigins: '*'
+              allowedMethods:
+                - GET
+                - POST
+                - OPTIONS
+              allowedHeaders: '*'
+              maxAge: 30
+        - id: product-categories
+          uri: lb://flux-product
+          predicates:
+            - Path=/categories
+          metadata:
+            cors:
+              allowedOrigins: '*'
+              allowedMethods:
+                - GET
+                - POST
+                - OPTIONS
+              allowedHeaders: '*'
+              maxAge: 30
+        - id: flux-order
+          uri: lb://flux-order
+          predicates:
+            - Path=/orders/**
+          metadata:
+            cors:
+              allowedOrigins: '*'
+              allowedMethods:
+                - GET
+                - POST
+                - OPTIONS
+              allowedHeaders: '*'
+              maxAge: 30
+        - id: user
+          uri: lb://user
+          predicates:
+            - Path=/user/**
+          metadata:
+            cors:
+              allowedOrigins: '*'
+              allowedMethods:
+                - GET
+                - POST
+                - OPTIONS
+              allowedHeaders: '*'
+              maxAge: 30
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+
+webpos:
+  jwt:
+    location: classpath:webpos.jks
+    password: 123456
+    tokenTTL: 30m
+  auth:
+    excludePaths:
+      - /user/login/*
